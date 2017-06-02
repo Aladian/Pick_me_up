@@ -1,0 +1,33 @@
+{% extends 'music/base.html' %}
+{% block title %}Add a New Path{% endblock %}
+{% block albums_active %}active{% endblock %}
+{% load crispy_forms_tags %}
+
+{% block body %}
+<div class="container-fluid">
+    <div class="row">
+
+        <div class="col-sm-4 col-sm-offset-3" style="background-color: rgba(255,255,255,0.6)">
+
+                <div class = "panel-body">
+                    <h3>Station</h3>
+                    <p><h5 style="color: #ba2121"><b><p>NOTE: If you cannot choose a location, add a path first</b> </h5> </p>
+                    {% if error_message %}
+                        <p><strong>{{ error_message }}</strong></p>
+                    {% endif %}
+
+                    <form class="form-horizontal" action="" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ form|crispy }}
+{#                        {% include 'music/form-template.html' %}#}
+                        <br>
+                                <button type="submit" class="btn btn-success">Submit</button>
+
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,14 @@
+
+body {
+    background: space url("images/background.jpg");
+    background-repeat:repeat;
+    background-size:100%;
+}
+
+.navbar{
+    border-radius:0;
+}
+
+.navbar-brand{
+    font-family: 'Satisfy',cursive;
+}

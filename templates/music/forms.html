@@ -1,0 +1,43 @@
+{% extends "music/base.html" %}
+{% load crispy_forms_tags %}
+
+{% block body %}
+               <!-- Right Song Info-->
+            <div class="col-sm-9 col-md-9">
+
+
+                <div class="panel panel-default"style="background-color: rgba(0,0,0,0.5)">
+                    <div class="panel-body"style="color: white">
+
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>To</th>
+                                <th>Station</th>
+                                <th>Time</th>
+                                <th>Driver</th>
+                            </tr>
+                            </thead>
+                                    <tr>
+                                        <th>{{ Location }}</th>
+                                        <th style="color:yellow">{{ Station }}</th>
+                                        <th style="color:deepskyblue">{{ Time }}</th>
+                                        <th>{{ Driver }}</th>
+                                    </tr>
+                        </table>
+                    </div></div></div>
+<div class="container container-table">
+
+    <div class=" vertical-center-row col-sm-3 col-sm-offset-3" style="background-color: rgba(0,0,0,0.2)">
+
+
+        <form method = 'POST' action = ''>{% csrf_token %}
+            {{ form|crispy }}
+
+            <input class="btn btn-primary" type = 'submit' value = 'Send' />
+        </form>
+        <br>
+    </div>
+    </div>
+</div>
+{% endblock %}

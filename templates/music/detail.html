@@ -1,0 +1,121 @@
+{% extends 'music/base.html' %}
+{% block title %}Path Details{% endblock %}
+
+{% block body %}
+    <div class="container-fluid songs-container">
+        <div class="row">
+
+            <!-- Left Album Info-->
+            <div class="col-sm-4 col-md-3" >
+                <div class = "panel panel-default" style="background-color: rgba(0,0,0,0.3)">
+                    <div class="panel-body" style="color: silver">
+                        <a href = "{% url 'music:detail' album.id %}">
+                            <img src="{{ album.photo.url }}" class="img-responsive">
+                        </a>
+                        <table>
+                            <tr><h1>{{ album.location }}</h1></tr>
+                              <tr> <h1><small>Path : {{ album.path }}</small> </h1> </tr>
+                            <tr><h2>Driver : {{ album.driver }}</h2></tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!-- Right Song Info-->
+            <div class="col-sm-8 col-md-9">
+
+
+                <div class="panel panel-default"style="background-color: rgba(0,0,0,0.5)">
+                    <div class="panel-body"style="color: white">
+                        <h3>All Stations</h3>
+
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>Station</th>
+                                <th>Arrive Time</th>
+                                <th>Service situation</th>
+                            </tr>
+                            </thead>
+
+                                {% for song in album.song_set.all %}
+                                {% if song.location.id == album.id %}
+
+                                    <tr>
+                                        <th style="color:yellow">{{ song.station }}</th>
+                                        <th style="color:deepskyblue">{{ song.time }}</th>
+                                        <th>
+                                            {% if song.is_full %}
+                                                <span class = "glyphicon glyphicon-remove-sign" style="color:red" aria-hidden="ture"></span> closed
+                                            {% else %}
+                                                <span class = "glyphicon glyphicon-ok-sign" style="color:greenyellow" aria-hidden="ture"></span> open
+                                            {% endif %}
+                                        </th>
+
+                                        <th>
+                                     {% if request.user.id == album.driver.id %}
+                                            <a href="{% url 'music:station-update' song.id %}">
+                                                <button type="hidden" name="song_id" value="{{ song.id }}">
+                                                    <span class="glyphicon glyphicon-cog" style="color: darkblue"></span>
+                                                </button>
+                                            </a>
+
+                                             <!-- Delete -->
+                                             <form action="{% url 'music:station-delete' song.id %}" method="post" style="display: inline;">
+                                                 {% csrf_token %}
+                                                 <input type="hidden" name="song_id" value="{{ song.id }}"/>
+                                                    <button type="hidden" name="song_id" value="{{ song.id }}">
+                                                        <span class="glyphicon glyphicon-trash" style="color: black"></span>
+                                                    </button>
+                                             </form>
+                                    {% else %}
+                                         {% if not song.is_full %}
+                                             {% if  request.user.is_authenticated %}
+                                   <!--Order -->
+                                            <a href ="{% url 'music:contact' album.id song.id %}" >
+                                                    <button  type="hidden" value="{{ album.id }}{{ song.id
+ }}">
+                                                        <span class="glyphicon glyphicon-envelope" style="color: black">  contact</span>
+                                                    </button>
+                                            </a>
+                                             {% endif %}
+                                         {% endif %}
+                                     {% endif %}
+                                        </th>
+                                    </tr>
+                                {% endif %}
+                                {% endfor %}
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+{#    <h1>{{ album.album_title }}</h1>#}
+{#    <h2>{{ album.artist }}</h2>#}
+{##}
+{#    {% if error_message %}#}
+{#        <p><strong>{{ error_message }}</strong></p>#}
+{#    {% endif %}#}
+{##}
+{#    <form action="{% url 'music:favorite' album.id %}" method="post">#}
+{#        {% csrf_token %}#}
+{#        {% for song in album.song_set.all %}#}
+{#            <input type="radio" id="song{{ forloop.counter }}" name="song" value="{{ song.id }}"/>#}
+{#            <lable for ="song{{ forloop.counter }}">#}
+{#                {{ song.song_title }}#}
+{#                {% if song.is_favorite %}#}
+{#                    {% load static %}#}
+{#                    <img src="../../static/music/images/star.png" height="25"/>#}
+{#                {% endif %}#}
+{#            </lable><br>#}
+{#        {% endfor %}#}
+{#        <input type="submit" value="Favorite">#}
+{#    </form>#}
+{% endblock %}
+{##}
