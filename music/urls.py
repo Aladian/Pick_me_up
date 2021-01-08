@@ -19,7 +19,7 @@ urlpatterns = [
     url(r'^logout/$', auth_views.logout,{'next_page': '/music'}, name='logout'),
     url(r'^admin/', admin.site.urls),
 
-    #/music/
+    #/musicaaaa/
     url(r'^$',views.IndexView.as_view(), name='index'),
     url(r'^mine/$',views.Mine.as_view(), name='mine'),
 
